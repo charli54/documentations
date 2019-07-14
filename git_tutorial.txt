@@ -30,4 +30,7 @@ git checkout <branch name>
 ## REMOTE REPOSITORY (GITHUB)
 	## Depuis GITHUB on cree un nouveau repertoire puis
 	## copier la ligne git remote
+	##puis git push origin master
  
+	##Depuis un autre ordinateur
+	git clone <adresse GIT>
