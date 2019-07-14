@@ -34,3 +34,5 @@ git checkout <branch name>
  
 	##Depuis un autre ordinateur
 	git clone <adresse GIT>
+
+git pull origin
