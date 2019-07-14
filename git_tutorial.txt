@@ -21,3 +21,13 @@ git rm --cached <fileName>	//Pour desindexer un fichier
 git commit -m "description"	
 git checkout <log number>
 git checkout master		//Pour revenir a la branche principale
+
+## BRANCH
+git branch <branch name>	//Create a new branch
+git branch --list
+git checkout <branch name>
+
+## REMOTE REPOSITORY (GITHUB)
+	## Depuis GITHUB on cree un nouveau repertoire puis
+	## copier la ligne git remote
+ 
