@@ -16,4 +16,8 @@ git init
 ## BASIC COMMANDS
 git status
 git log
-git add .		//Ajoute tous les fichiers
+git add .			//Ajoute tous les fichiers
+git rm --cached <fileName>	//Pour desindexer un fichier
+git commit -m "description"	
+git checkout <log number>
+git checkout master		//Pour revenir a la branche principale
