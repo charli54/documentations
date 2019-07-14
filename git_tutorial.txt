@@ -35,4 +35,4 @@ git checkout <branch name>
 	##Depuis un autre ordinateur
 	git clone <adresse GIT>
 
-git pull origin
+git pull origin master		//Pour mettre a jour depuis un server distant

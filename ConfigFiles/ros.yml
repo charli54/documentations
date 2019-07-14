@@ -1,0 +1,55 @@
+# ~/.tmuxinator/ros.yml
+
+name: ros
+root: ~/
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+pre_window: source /opt/ros/kinetic/setup.bash
+
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t ros
+
+windows:
+  - editor:
+      layout: 4f1b,204x60,0,0[204x30,0,0{64x30,0,0,0,139x30,65,0,9},204x30,0,31{116x30,0,31,4,87x30,117,31,10}]
+      panes:
+        - roscore
+        - cd ~/catkin_ws && mc
+        - cd ~/catkin_ws && ls
+        - htop
+  - server: 
+      layout : e005,204x61,0,0[204x30,0,0{142x30,0,0,1,61x30,143,0,12},204x30,0,31{51x30,0,31,11,152x30,52,31,13}]
+      panes:
+        - 
+        - 
+        - 
+        - 
+  - logs: tail -f log/development.log
+  - git:
+      layout: 2500,204x60,0,0[204x30,0,0{33x30,0,0,0,85x30,34,0,8,84x30,120,0,9},204x30,0,31{159x30,0,31,4,44x30,160,31,10}]
+      panes:
+        - cd ~/catkin_ws
+        - 
+        - git status
+        - ls
+        - ls -a
