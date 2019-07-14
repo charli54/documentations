@@ -1,0 +1,19 @@
+## INSTALLATION 
+sudo apt-get install git
+
+## COMPTE
+sebastien.helle@etsmtl.ca
+psw: as usual
+
+## CONFIGURATION
+git config --global user.name "yourusername"
+git config --global user.email "yourusername@example.com"
+git config --list
+
+## INITIALISATION
+git init
+
+## BASIC COMMANDS
+git status
+git log
+git add .		//Ajoute tous les fichiers
