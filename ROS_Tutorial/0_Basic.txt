@@ -1,0 +1,36 @@
+# AFTER STARTING NEW TERMINAL
+source /opt/ros/kinetic/setup.bash
+roscore					
+
+# ROS Terminlogy
+	Nodes		: executable qui utilise ROS pour communiquer avec d'autres executables
+	Message		: Type de donné utilisé par ROS pour publier ou souscrire a un topic
+	Topic		: Sujet apropos duquel un "Node" peut souscrire ou publier des messages. Les exec communiquent a travers des topics
+	Service		:
+
+# 1 Nodes
+	rosnode list							//Sort the list of all active node
+	rosnode info [/node_name]					//Information about the node
+	rosnode kill [/node_name]					//Arrete un node
+	rosnode machine [machine_name]					//list node running on a particular machine
+
+	rosrun [package_name] [node_name] {__name:=another_name}	//start a node 
+
+# 2 Topics
+	Exemple: TurtleSim_Teleop publie les touches enfoncées sur un topic et TurtleSim souscrit a ce topic pour connaitre les touches.
+	Pour visualiser les liens on peut utliser RQT_GRAPH
+	rosrun rqt_graph rqt_graph
+
+	rostopic list -v	
+	rostopic echo [topic]
+	rostopic type [topic]
+		rosmsg show [message_type]				//permet de voir le format du message
+	rostopic pub							//publie des données a travers le topic
+	rostopic pub [topic] [msg_type] [args]
+	rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist (-r 1) -- '[0.0, y, z]' '[a, b, c]'
+		-1 : publi un seuk message
+		(-r 1) : rate of 1 Hz
+		-- : aucun des arguments n'est une option (valeur negatives)
+		x, y, z : linear velocity
+		a, b, c : angular velocity
+

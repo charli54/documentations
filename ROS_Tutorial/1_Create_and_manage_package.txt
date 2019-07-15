@@ -1,0 +1,34 @@
+# CREATE PACKAGE
+cd ~/catkin_ws/src					//Move to catkin source folder
+catkin_create_pkg <package_name> [depend1] [depend2]	//Create the package
+
+# BUILD & SOURCE
+cd ~/catkin_ws						//From the root of catkin workspace
+catkin_make						//Make the built to get a similar structure into devel subfolder
+. ~/catkin_ws/devel/setup.bash				//add the worspace to ROS environnement
+rospack profile						//pour le trouver avec l'autocompletion
+
+# PACKAGE.XML
+<description>						//Describe the project
+<maintainer>						//Who to contact
+<dependencies>						//ajouter les dependences
+
+#######  CMakeLists.txt ######
+The file CMakeLists.txt is the input to the CMake build system for building software packages.
+
+## STRUCTURE ##
+	1  Required CMake Version (cmake_minimum_required(VERSION 2.8.3))
+	2  Package Name (project(beginer_tutorial))
+	3  Find other CMake/Catkin packages needed for build (find_package())
+	4  Enable Python module support (catkin_python_setup())
+	5  Message/Service/Action Generators (add_message_files(), add_service_files(), add_action_files())
+	6  Invoke message/service/action generation (generate_messages())
+	7  Specify package build info export (catkin_package())
+	8  Libraries/Executables to build (add_library()/add_executable()/target_link_libraries())
+	9  Tests to build (catkin_add_gtest())
+       10  Install rules (install())
+
+## 3 Finding Dependent CMake Packages
+find_package(OpenCV 3 REQUIRED)
+
+## 4 

@@ -1,6 +1,8 @@
 # File: ~/.bin/work
 # add export PATH="~/.bin:$PATH" this line to ~/.bashrc 
-# source ~/.bashrc
+
+#Pour mettre a jour sans fermer le terminal
+# source ~/.bashrc            
 
 #!/bin/bash
 
