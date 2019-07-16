@@ -39,7 +39,7 @@ git pull origin master		//Pour mettre a jour depuis un server distant
 
 ## ADD AN SSH KEY
 	## CREATE A PUBLIC KEY
-	ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+	ssh-keygen -t rsa -b 4096 -C "your_email@example.com"			//si le fichier existe deja en creer un autre
 
 	eval "$(ssh-agent -s)"
 
