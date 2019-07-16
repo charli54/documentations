@@ -37,19 +37,17 @@ windows:
         - cd ~/catkin_ws && mc
         - cd ~/catkin_ws && ls
         - htop
-  - server: 
+  - ROS_Test: 
       layout : e005,204x61,0,0[204x30,0,0{142x30,0,0,1,61x30,143,0,12},204x30,0,31{51x30,0,31,11,152x30,52,31,13}]
       panes:
-        - 
+        - rosnode list
         - 
         - 
         - 
   - logs: tail -f log/development.log
   - git:
-      layout: 2500,204x60,0,0[204x30,0,0{33x30,0,0,0,85x30,34,0,8,84x30,120,0,9},204x30,0,31{159x30,0,31,4,44x30,160,31,10}]
+      layout: tiled
       panes:
-        - cd ~/catkin_ws
-        - 
-        - git status
-        - ls
-        - ls -a
+        - cd ~/Documents/doc_partage/ && git status
+        - cd ~/catkin_ws && git status
+
