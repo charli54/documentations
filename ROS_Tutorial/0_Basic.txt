@@ -6,7 +6,7 @@ roscore
 	Nodes		: executable qui utilise ROS pour communiquer avec d'autres executables
 	Message		: Type de donné utilisé par ROS pour publier ou souscrire a un topic
 	Topic		: Sujet apropos duquel un "Node" peut souscrire ou publier des messages. Les exec communiquent a travers des topics
-	Service		:
+	Service		: Permet de communiquer avec un "Node"
 
 # 1 Nodes
 	rosnode list							//Sort the list of all active node
@@ -34,3 +34,59 @@ roscore
 		x, y, z : linear velocity
 		a, b, c : angular velocity
 
+# 3 Services
+	rosservice list
+	rosservice type [service]
+		rossrv show [service_type]
+		rossrv type [service] | rossrv show		//POur connaitre le format du service
+	rosservice call [service] [args]	
+
+	Rosparam permet de manipuler des données
+		rosparam list
+		rosparam get [parameter]						//Permet d'obtenir la valeur et le type de donné
+		rosparam dump [file_name.yaml] [namespace]		//Permet d'enregistrer les parametre dans un fichier
+			rosparam dump fichier.yaml copy
+			/copy/parameter
+		rosparam load [file_name.yaml] [namespace]
+
+# 4 DEBUGGING
+
+	rqt_console permet d'afficher les sorties d'un "Node" "topic" etc...
+	rqt_logger_level permet de choisir le niveau de debugging "INFO" "WARNING" ets...
+
+		rosrun rqt_console rqt_console
+		rosrun rqt_logger_level rqt_logger_level
+
+# 5 ROSLAUNCH
+
+	roslaunch permet d'executer des "node" définis dans un fichier
+
+		roslaunch [package_name] [file_name.launch]
+
+	###_EXEMPLE_FILE_###
+	<launch>					<!--Launch file-->
+
+		<group ns="turtlesim1">			<!--group avec un namespace pour identifier les topic (/turtlesim1/velocity) 
+			<node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+		</group>
+
+		<group ns="turtlesim2">
+			<node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+		</group>
+
+		<node pkg="turtlesim" name="mimic" type="mimic">
+			<remap from="input" to="turtlesim1/turtle1"/>
+			<remap from="output" to="turtlesim2/turtle1"/>
+		</node>
+		
+	</launch>
+
+# 6 EDITOR
+
+	Il est possible de modifier un fichier avec ROSED
+
+	rosed [package_name] [file_name]
+
+	Pour modifier l'éditeur par defaut
+		export EDITOR='subl'
+		source ~/.bashrc

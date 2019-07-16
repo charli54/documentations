@@ -1,0 +1,71 @@
+## MESSAGES AND SERVICES ##
+
+#### MESSAGE ####
+	fichier qui decrit les champs d'un message ROS
+	Les messages sont placés dans le repertoire /package_name/msg
+	Les type de variable peuvent être :
+		- int8, int16, int32, int64 (plus uint*)
+		- float32, float64
+		- string
+		- time, duration
+		- other msg files
+		- variable-length array[] and fixed-length array[C]
+
+	Pour pouvoir compiler et executer il faut ajouter les lignes suivantes: 
+	- PACKAGE.XML
+		<build_depend>message_generation</build_depend>
+		<exec_depend>message_runtime</exec_depend>	
+	- CMakelist.txt
+		- mesage_generation dans la section 
+			find_package(catkin REQUIRED COMPONENTS
+				...
+				message_generation
+				...
+			)
+		- message_runtime dans 
+			catkin_package(
+				...
+				CATKIN_DEPENDS message_runtime
+				...
+				)
+		- decommenté la section 
+			add_message_files(
+				FILES
+				num.msg
+			)
+		- decommenté la section
+			generate_messages(
+				DEPENDENCIES
+				std_msgs
+			)
+
+	###_EXEMPLE DE MSG FILE
+		Header header
+		string child_frame_id
+		geometry_msgs/PoseWithCovariance pose
+		geometry_msgs/TwistWithCovariance twist
+
+#### SERVICE ####
+	Fichier qui decrit un service. 
+	Les services sont placés dans le repertoire /package_name/srv
+	Il est composé de :
+		- Une Requete
+		- Une Réponse
+
+	Il faut egalement modifier le fixhier PACKAGE.XML de la même maniere
+	et aussi le fichier CMakeList.txt comme suit  :
+		- message_generation dans find_package(catkin REQUIRED ...)
+		- Décommenter la section add_service_files
+			add_service_files(
+				FILES
+				AddTwoInts.srv
+			)
+	###_EXEMPLE DE SRV FILE (un service d'addition)
+		int64 A
+		int64 B
+		---
+		int64 Sum
+
+### BUILD AND INSTALL
+
+	catkin_make install
