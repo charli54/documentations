@@ -1,0 +1,85 @@
+## Ce fichier regroupe les etapes utile (et moins utiles) pour configurer l'environnement de terminal ##
+## ~/.bashrc		// Config du terminal
+## ~/.tmux.conf 	//Configuration du terminal multiplexer
+
+
+################################################### INSTALLATION DES PROGRAMMES #######################################################
+
+### INSTALL TMUX  FRON SOURCE ###
+
+	### Etape necessaire pour avoir une version supperieure a 2.6
+
+		## Un petit update avant d'installer
+		sudo apt-get update
+
+		## Liste des dependences :
+		automake build-essential pkg-config libevent-dev libncurses5-dev
+
+		## Remove /tmp/tmux s'il existe
+		rm -fr /tmp/tmux
+
+		## Clonage du GIT
+		git clone https://github.com/tmux/tmux.git /tmp/tmux
+		cd /tmp/tmux
+
+		## On deternime la version a installer (2.6 2.8 master)
+		git checkout master
+
+		## Execute autogen.sh
+		sh autogen.sh
+
+		## Configure, build et installe
+		./configure && make
+		sudo make install
+
+		## On efface les temp
+		cd - && rm -fr /tmp/tmux
+
+### INSTALL TMUXINATOR ###
+
+	### Etape la plus facile
+	sudo apt-get install tmuxinator
+
+	### Creation d'un fichier de configuration 
+	touch ~/.tmuxinator/nom_de_la_session.yml
+
+### INSTALL POWERLINE-STATUS ###
+
+	## On a besoin de pip et de python 2.6+ ou 3.2+
+	sudo apt-get install python3-pip
+	pip -V
+
+	## Install powerline avec pip
+	pip install --user powerline-status
+	pip list | grep powerline
+
+	## Install fonts
+	sudo apt-get install fonts-powerline
+
+	## Creation du fichier de configuration
+	touch ~/.config/fontconfig/conf.d
+
+	## copier le contenu du fichier situé ici https://github.com/powerline/fonts/blob/master/fontconfig/50-enable-terminess-powerline.conf
+
+	## On lance la commande suivante
+	fc-cache -vf
+
+####################################################### CONFIGURATION ###############################################################
+
+### POWERLINE ###
+	
+	## pour déterminer ou est installer powerline on lance
+	pip show powerline-status
+
+	## Pour avoir des belle status-bar dans le terminal on ajoute les lignes suivante a ~/.bashrc
+	if [ -f `which powerline-daemon` ]; then
+		powerline-daemon -q
+		POWERLINE_BASH_CONTINUATION=1
+		POWERLINE_BASH_SELECT=1
+		. /home/hellboy/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
+	fi
+
+
+	## Pour installer powerline dans Tmux on ajoute
+	powerline-daemon -q 								//Pas sur que ce soit utile
+	source '/home/hellboy/.local/lib/python3.5/site-packages/powerline/bindings/tmux/powerline.conf'
