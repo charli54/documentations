@@ -11,7 +11,7 @@ root: ~/
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
-pre_window: source /opt/ros/kinetic/setup.bash
+pre_window: source /opt/ros/kinetic/setup.bash && source ~/catkin_ws/devel/setup.bash && clear
 
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
@@ -21,7 +21,7 @@ pre_window: source /opt/ros/kinetic/setup.bash
 # tmux_command: byobu
 
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
-# startup_window: logs
+startup_window: ROS_Test
 
 # Controls whether the tmux session should be attached to automatically. Defaults to true.
 # attach: false
@@ -40,8 +40,8 @@ windows:
   - ROS_Test: 
       layout : e005,204x61,0,0[204x30,0,0{142x30,0,0,1,61x30,143,0,12},204x30,0,31{51x30,0,31,11,152x30,52,31,13}]
       panes:
-        - rosnode list
-        - 
+        - cd ~/catkin_ws
+        - cd ~/catkin_ws
         - 
         - 
   - logs: tail -f log/development.log
@@ -49,5 +49,6 @@ windows:
       layout: tiled
       panes:
         - cd ~/Documents/doc_partage/ && git status
-        - cd ~/catkin_ws && git status
+        - cd ~/catkin_ws/src && git status
+
 
