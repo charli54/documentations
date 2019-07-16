@@ -36,3 +36,18 @@ git checkout <branch name>
 	git clone <adresse GIT>
 
 git pull origin master		//Pour mettre a jour depuis un server distant
+
+## ADD AN SSH KEY
+	## CREATE A PUBLIC KEY
+	ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+	eval "$(ssh-agent -s)"
+
+	ssh-add ~/.ssh/id_rsa
+
+	## ADD KEY TO GITHUB
+	sudo apt-get install xclip
+
+	xclip -sel clip < ~/.ssh/id_rsa.pub
+
+	Copier la clef dans Github dans SETTING/SSH_andGPG_Keys
