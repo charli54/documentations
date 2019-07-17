@@ -11,11 +11,9 @@ root: ~/
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
-<<<<<<< HEAD
-pre_window: source /opt/ros/kinetic/setup.bash && source ~/catkin_ws/devel/setup.bash
-=======
+
 pre_window: source /opt/ros/kinetic/setup.bash && source ~/catkin_ws/devel/setup.bash && clear
->>>>>>> 7042cf28ec6257a8a184be6b7b09cabb5e1059a9
+
 
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
@@ -54,5 +52,6 @@ windows:
       panes:
         - cd ~/Documents/doc_partage/ && git status
         - cd ~/catkin_ws/src && git status
+        - cd ~/ && mc
 
 
