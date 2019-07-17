@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#~/.bin/update_configFiles
+
+echo "Coping configFiles"
+rm ~/.tmux.conf && ln ~/Documents/doc_partage/ConfigFiles/.tmux.conf ~/.tmux.conf
+rm ~/.tmuxinator/ros.yml && ln ~/Documents/doc_partage/ConfigFiles/ros.yml ~/.tmuxinator/ros.yml
+echo "DONE !"
