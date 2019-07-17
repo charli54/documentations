@@ -48,10 +48,12 @@ windows:
         - 
   - logs: tail -f log/development.log
   - git:
-      layout: tiled
+      layout: 4753,263x80,0,0[263x47,0,0{131x47,0,0[131x25,0,0,3,131x21,0,26,15],131x47,132,0[131x25,132,0,14,131x21,132,26,16]},263x32,0,48,13]
       panes:
-        - cd ~/Documents/doc_partage/ && git status
-        - cd ~/catkin_ws/src && git status
+        - cd ~/Documents/doc_partage
+        - cd ~/Documents/doc_partage && git status && watch -n 5 git status
+        - cd ~/catkin_ws/src 
+        - cd ~/catkin_ws/src && git status && watch -n 5 git status
         - cd ~/ && mc
 
 
