@@ -1,10 +1,61 @@
 ############################# CREATE AND BUILT SOURCE FILE #################################
 
-add_executable(talker src/talker.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-add_dependencies(talker beginner_tutorials_generate_messages_cpp)
+### CREATE FILES .CPP inside package_name/src
 
-add_executable(listener src/listener.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-add_dependencies(listener beginner_tutorials_generate_messages_cpp)
+	# Main function
+	int main(int argc, char **argv){}
+
+	# Essential
+		# Init() a kancer avnt d'utiliser n'importe quelle partie de ROS
+		ros::init(argc, argv, "Node_Name");
+
+		# Creer un point d'acces
+		ros::NodeHandle node_handle_name;
+
+		# Pour publier un topic
+		ros::Publisher name_pub = node_handle_name.advertise<message_type>("topic_Name", taille_buffer);
+		ros::Rate loop_rate(10);								//Permet de creer une frequence de 10Hz
+			# Tout ca dans une boucle while(ros::ok())
+			message_type message;
+			message.data = "Hello World !";
+			name_pub.publish(message);
+			ros::spinOnce();
+			loop_rate.sleep();										//permet d'envoyer les message a 10Hz
+
+		# Pour souscrire a un topic
+		ros::Subscriber name_sub = node_handle_name.subscribe("topic_name", 1000, callback_function);
+		ros::spin()													//Entre dans une boucle
+			# Il faut la fonction callBack
+			callback_function(const message_type::ConstPtr& msg){
+				msg->data;											//on travail sur un pointeur
+			}
+
+		# Service server
+		ros::ServiceServer service_object_name = node_handle_name.advertiseService("service_Name", function_service);
+		ros::spin();
+			type function_Name(package_Name::srv::value &variable, ...)
+			{
+				//service ici
+				return un_Truc_utile;
+			}
+
+		# Service client
+		ros::ServiceClient client_object_name = n.serviceClient<package_name::srv_name>("service_name");
+		package_name::srv_name srv  								//creation d'un objet srv
+		srv.request.a = atoll(argv[1]); 							//formatage de la requete
+		...
+		if (client.call(srv))										//on envoi la requete
+		{
+			ROS_INFO("Sum: %ld", (long int)srv.response.sum);		//reception de la reponse
+		}
+
+### BUILD CMakeFile.txt
+
+	add_executable(talker src/talker.cpp)
+	target_link_libraries(talker ${catkin_LIBRARIES})
+	add_dependencies(talker beginner_tutorials_generate_messages_cpp)
+
+	add_executable(listener src/listener.cpp)
+	target_link_libraries(listener ${catkin_LIBRARIES})
+	add_dependencies(listener beginner_tutorials_generate_messages_cpp)
 
