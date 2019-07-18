@@ -2,6 +2,34 @@
 source /opt/ros/kinetic/setup.bash
 roscore					
 
+# ECLIPSE CONFIGURATION POUR ROS
+	1. Install eclipse from download
+	2. make the launcher
+		sudo nano ~/.local/share/applications/eclipse.desktop
+
+			Desktop Entry]                                                                              
+			Type=Application                                                                              
+			Name=Eclipse                                                                                  
+			Comment=Eclipse Integrated Development Environment                                            
+			Icon=/home/hellboy/eclipse/cpp-oxygen/eclipse/icon.xpm                                       
+			Exec=bash -i -c /home/hellboy/eclipse/cpp-oxygen/eclipse/eclipse                              
+			Terminal=false                                                                                
+			Categories=Development                                                                        
+			StartupWMClass=Eclipse
+
+	3. rendre le launcher executable
+		chmod +x ~/.local/share/applications/eclipse.desktop
+
+	4. Create the .project necessaire pour eclipse
+		cd ~/catkin_ws
+		catkin_make --force-cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_ECLIPSE_MAKE_ARGUMENTS=-j8 .
+
+	5. Dans eclipse File >> import >> Existing projects into workspace
+
+	6. Seletionner ~/catkin_ws/build
+
+	7. Pour compiler Ctrl + b
+
 # ROS Terminlogy
 	Nodes		: executable qui utilise ROS pour communiquer avec d'autres executables
 	Message		: Type de donné utilisé par ROS pour publier ou souscrire a un topic

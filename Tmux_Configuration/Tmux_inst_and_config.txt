@@ -83,3 +83,17 @@
 	## Pour installer powerline dans Tmux on ajoute
 	powerline-daemon -q 								//Pas sur que ce soit utile
 	source '/home/hellboy/.local/lib/python3.5/site-packages/powerline/bindings/tmux/powerline.conf'
+
+	## Si une erreur de du type :
+	## No space left on deviceYou may need to increase the inotify limits on your system
+
+	Verifier la taille attribue a inotify max_user_watches
+
+	tail /proc/sys/fs/inotify/*
+
+	## Modifier si trop petite < 524288
+	sudo su
+	sudo echo 524288 > /proc/sys/fs/inotify/max_user_watches
+
+	## Lancer tmux et reloader le fichier de configuration
+	C - b r
