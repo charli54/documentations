@@ -118,3 +118,21 @@ roscore
 	Pour modifier l'éditeur par defaut
 		export EDITOR='subl'
 		source ~/.bashrc
+
+# 7 PLAY AND RECORD DATA (rosbag)
+	
+	Permet d'enregisrter les message publié sur un topic et de les rejouer
+
+	#Creation d'un repertoire temporaire pour stocker les .bag
+	mkdir temp_directory
+	cd temp_directory
+
+	#Enregistrement des donnes
+	rosbag record -a 											//record all published topics
+	rosbag record -O subset /topic_of_interst /another_topic	//record only the desired topic
+
+	#Lecture des donnes
+	rosbag info bag_file.bag									//info sur le .bag
+	rosbag play bag_file.bag
+	rosbag play -s 1 bag_file.bag 								//debute la lecture a partir de 1s
+	rosbag play -r 2 bag_file.bag 								//play with another rate
