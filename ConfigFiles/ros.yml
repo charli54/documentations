@@ -42,7 +42,7 @@ windows:
   - ROS_Test: 
       layout : e005,204x61,0,0[204x30,0,0{142x30,0,0,1,61x30,143,0,12},204x30,0,31{51x30,0,31,11,152x30,52,31,13}]
       panes:
-        - cd ~/catkin_ws
+        - cd ~/catkin_ws/src
         - cd ~/catkin_ws
         - 
         - 
