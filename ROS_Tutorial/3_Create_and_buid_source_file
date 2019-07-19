@@ -12,42 +12,101 @@
 		# Creer un point d'acces
 		ros::NodeHandle node_handle_name;
 
-		# Pour publier un topic
-		ros::Publisher name_pub = node_handle_name.advertise<message_type>("topic_Name", taille_buffer);
-		ros::Rate loop_rate(10);								//Permet de creer une frequence de 10Hz
-			# Tout ca dans une boucle while(ros::ok())
-			message_type message;
-			message.data = "Hello World !";
-			name_pub.publish(message);
-			ros::spinOnce();
-			loop_rate.sleep();										//permet d'envoyer les message a 10Hz
+		#################################################################################################################################
+		# Pour publier un topic 						->			http://docs.ros.org/melodic/api/roscpp/html/classros_1_1Publisher.html
+		#################################################################################################################################
 
-		# Pour souscrire a un topic
-		ros::Subscriber name_sub = node_handle_name.subscribe("topic_name", 1000, callback_function);
-		ros::spin()													//Entre dans une boucle
-			# Il faut la fonction callBack
-			callback_function(const message_type::ConstPtr& msg){
-				msg->data;											//on travail sur un pointeur
-			}
+			ros::Publisher name_pub = node_handle_name.advertise<message_type>("topic_Name", taille_buffer);
+			ros::Rate loop_rate(10);								//Permet de creer une frequence de 10Hz
+				# Tout ca dans une boucle while(ros::ok())
+				message_type message;
+				message.data = "Hello World !";
+				name_pub.publish(message);
+				ros::spinOnce();
+				loop_rate.sleep();										//permet d'envoyer les message a 10Hz
 
-		# Service server
-		ros::ServiceServer service_object_name = node_handle_name.advertiseService("service_Name", function_service);
-		ros::spin();
-			type function_Name(package_Name::srv::value &variable, ...)
+		###################################################################################################################################
+		# Pour souscrire a un topic 					->			http://docs.ros.org/melodic/api/roscpp/html/classros_1_1Subscriber.html
+		###################################################################################################################################
+
+			ros::Subscriber name_sub = node_handle_name.subscribe("topic_name", 1000, callback_function);
+			ros::spin()													//Entre dans une boucle
+				# Il faut la fonction callBack
+				callback_function(const message_type::ConstPtr& msg){
+					msg->data;											//on travail sur un pointeur
+				}
+
+		###################################################################################################################################
+		# Service server 								->		   http://docs.ros.org/melodic/api/roscpp/html/namespaceros_1_1service.html
+		###################################################################################################################################
+
+			ros::ServiceServer service_object_name = node_handle_name.advertiseService("service_Name", function_service);
+			ros::spin();
+				type function_Name(package_Name::srv::value &variable, ...)
+				{
+					//service ici
+					return un_Truc_utile;
+				}
+
+
+		####################################################################################################################################	
+		# Service client 								->        	http://docs.ros.org/melodic/api/roscpp/html/namespaceros_1_1service.html
+		####################################################################################################################################
+
+			ros::service::waitForService("service_name");				//Attend que le server soit en route (bloque)
+			ros::ServiceClient client_object_name = n.serviceClient<package_name::srv_name>("service_name");
+			package_name::srv_name srv  								//creation d'un objet srv
+			srv.request.a = atoll(argv[1]); 							//formatage de la requete
+			...
+			if (client.call(srv))										//on envoi la requete
 			{
-				//service ici
-				return un_Truc_utile;
+				ROS_INFO("Sum: %ld", (long int)srv.response.sum);		//reception de la reponse
 			}
 
-		# Service client
-		ros::ServiceClient client_object_name = n.serviceClient<package_name::srv_name>("service_name");
-		package_name::srv_name srv  								//creation d'un objet srv
-		srv.request.a = atoll(argv[1]); 							//formatage de la requete
-		...
-		if (client.call(srv))										//on envoi la requete
-		{
-			ROS_INFO("Sum: %ld", (long int)srv.response.sum);		//reception de la reponse
-		}
+
+		####################################################################################################################################	
+		# TRANSFORM TF								->        		http://docs.ros.org/kinetic/api/tf/html/c++/namespacetf.html
+													->				http://docs.ros.org/kinetic/api/tf/html/c++/classtf_1_1Transform.html
+
+						tutorial : http://wiki.ros.org/tf/Tutorials
+		####################################################################################################################################		
+
+			########### Basic functions (appelable depuis un objet tf::Transform transform_name;)
+			getBasis()	  : Retourne la matrice de rotation 						Matrix3x3
+			getOrigin()   : Retourne le vecteur de translation						Vector3
+			getRotation() : Retourne un quaternion qui represente la rotation 		Quaternion
+			setOrigin(tf::Vector3(0.0, 0.0, 0.0) )	: set the transform
+
+			########### BROADCASTER : Permet de diffuser les transformtion a travers ROS #######################################################
+			#include <tf/transform_broadcaster.h>
+
+			tf::TransformBroadcaster br;							//On cree une transformation qui va etre publié
+			tf::Transform transform;								//une autre qui va contenir la transformation a effectuer entre deux repères
+
+			ros::Rate rate(10.0);									//Frequence de publication
+			while (node.ok())										//Tant que le noeud est actif
+			{
+				//transform.setOrigin( tf::Vector3(0.0, 2.0, 0.0) );	//Fix Frame
+				transform.setOrigin(tf::Vector3(2.0*sin(ros::Time::now().toSec()), 2.0*cos(ros::Time::now().toSec()), 0.0) );	//mobile frame
+				transform.setRotation( tf::Quaternion(0, 0, 0, 1) );
+				br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "turtle1", "carrot"));						//On broadcast la transformation de carrot par rapport a turtle1
+				rate.sleep();
+			}
+
+
+			########### LISTENER : Permet d'obtenir la difference entre deux frames ############################################################
+			#include <tf/transform_listener.h>
+
+			#L'objet qui écoute les transformations publié à travers ROS
+			tf::TransformListener listener;
+
+			#Creation d'un objet transform dans lequel sera stocké la difference entre deux frames
+			tf::StampedTransform transform;
+
+			#Fonction calcul la difference entre deux frames | lookupTransform(const std::string &target_frame,const std::string &source_frame,const ros::Time &time,StampedTransform &transform)	
+			listener.lookupTransform("/turtle2", "/carrot",ros::Time(0), transform);
+
+
 
 ### BUILD CMakeFile.txt
 

@@ -136,3 +136,17 @@ roscore
 	rosbag play bag_file.bag
 	rosbag play -s 1 bag_file.bag 								//debute la lecture a partir de 1s
 	rosbag play -r 2 bag_file.bag 								//play with another rate
+
+# 8 DEBUG WITH ROSWTF
+
+	#Pour debugger un package
+	roscd package_name
+	roswtf
+
+# 9 RVIZ
+
+	#Pour lancer rviz
+	rosrun rviz rviz 	
+	rosrun rviz rviz -d `rospack find turtle_tf`/rviz/turtle_rviz.rviz 		//pour ouvrir un fichier existant
+
+	
