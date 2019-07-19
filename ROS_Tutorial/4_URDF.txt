@@ -1,0 +1,129 @@
+#################################################################################################################################
+#																																#
+# 												CREATE ROBOT MODEL WITH URDF													#
+#																																#
+#	Depuis le tutoriel ROS.org			-> 			http://wiki.ros.org/urdf/Tutorials											#
+#	XML Specifications 					-> 			http://wiki.ros.org/urdf/XML												#
+#################################################################################################################################
+
+
+
+
+### CREATE URDF.urdf file inside package_name/urdf
+
+### First line must contain the tag
+<?xml version="1.0"?>
+
+### The rest of the code must be contain between the robot tag
+<robot name="myfirst">
+	...
+	...
+</robot>	
+
+### Material can be declare on top and use after
+<material name="Cyan">
+	<color rgba="0 1.0 1.0 1.0"/>
+</material>
+
+#################################################################################################################################
+# ADD GEOMETRY (link) 				-> 		http://wiki.ros.org/urdf/XML/link
+#################################################################################################################################
+
+### A link correspond to a part of the robot. Il est fabriqué à partir de géometrie simple ou d'un mesh(.stl)
+
+<link name="link_name">
+	...
+	...
+</link>
+
+### Un LINK contient 3 autres tags : 
+	<inertial>
+	<visual>
+	<collision>
+
+	### VISUAL ##############################################################
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0" />										//Origine de la geometrie par rapport a elle même
+		<geometry>																//Une forme (box, cylinder(), sphere, mesh)
+			<box size="1 1 1" />
+			<cylinder length="0.6" radius="0.2"/>
+			<sphere radius="0.2"/>
+			<mesh filename="package://pkg_name/meshes/mesh_file.dae"/>
+		</geometry>
+		<material name="Cyan"/>
+	</visual>	
+
+	### INERTIAL - ADD PHYSICS TO THE MODEL #################################
+	<inertial>
+		<origin xyz="0 0 0.5" rpy="0 0 0"/>										//Centre de gravité
+		<mass value="1"/>														//Masse en kilogramme
+		<inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />		//Moment d'inertie de masse (ixx/iyy/izz=1e-3)
+	</inertial>
+
+		# Pour calculer l'inertie :
+		https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors
+
+	### COLLISTION BOX #######################################################
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="1" length="0.5"/>
+		</geometry>
+	</collision>
+
+#################################################################################################################################
+# ADD JOINT 					-> 			http://wiki.ros.org/urdf/XML/joint
+#################################################################################################################################
+
+### Permet de joindre deux liens ensemble. Il decrit les mouvements cinématiques et dynamiques et place les limites du mouvement.
+### Il peut être fixe ou mobile.
+
+<joint name="my_joint" type="revolute">
+	...
+	...
+</joint>
+
+### type can be :
+	revolute - 		a hinge joint that rotates along the axis and has a limited range specified by the upper and lower limits.
+	continuous - 	a continuous hinge joint that rotates around the axis and has no upper and lower limits.
+	prismatic - 	a sliding joint that slides along the axis, and has a limited range specified by the upper and lower limits.
+	fixed - 		This type of joint does not require the axis, calibration, dynamics, limits or safety_controller.
+	floating - 		This joint allows motion for all 6 degrees of freedom.
+	planar - 		This joint allows motion in a plane perpendicular to the axis.
+
+### un joint necessite minimalement les trois tag suivants: parent, child:
+	<parent link="link1"/>
+	<child link="link2"/>
+
+### Les tag supplementaires :
+	<origin xyz="0 0 1" rpy="0 0 3.1416"/>		//Par default 0
+	<axis xyz="1 2 3"/>							//Axe de rotation ou de traslation (pour planar c'est la normale à la surface)
+	<calibration rising="0.0"/>
+	<dynamics damping="0.0" friction="0.0"/>
+	<limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+	<safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
+
+	## Les deux seuls tags importants pour un vrai robot (Pas de simulation) sont calibration et safety_controller
+
+#################################################################################################################################
+# JOINT_STATE
+#################################################################################################################################
+
+First the GUI parses the URDF and finds all the non-fixed joints and their limits. 
+Then, it uses the values of the sliders to publish sensor_msgs/JointState messages. 
+Those are then used by robot_state_publisher to calculate all of transforms between the different parts. 
+The resulting transform tree is then used to display all of the shapes in Rviz.
+
+### les parametres du robot sont decrit dans /robot_description
+	rosparam list
+	rosparam get /robot_description
+
+### l'etat des joints sont publiés dans un joint_state
+	rostopic list
+	rostopic echo /joint_states
+
+### L'etat des noeuds et publié par le package joint_state_publisher
+	rosnode list
+	rosnode info /joint_state_publisher
+
+	On remarque que /robot_state_publisher souscrit a ce noeud. C'est /robot_state_publisher qui publie les joint a TF et RVIZ.
