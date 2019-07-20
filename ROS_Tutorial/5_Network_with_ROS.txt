@@ -1,0 +1,38 @@
+#################################################################################################################################
+#																																#
+# 												RUNNING ROS OVER MULTIPLE MACHINES												#
+#																																#
+#	Depuis le tutoriel ROS.org			-> 			http://wiki.ros.org/ROS/Tutorials/MultipleMachines							#
+#	GET RVIZ 							-> 			http://users.umiacs.umd.edu/~cteo/umd-erratic-ros-data/README-rvis-remote	#
+#################################################################################################################################
+
+#################################################################################################################################
+# ROBOT CONFIGURATION (Raspbery PI)
+#################################################################################################################################
+
+	### WIFI CONNECTION 
+	SSID ubiquityrobot671B
+	PWD  ubuntu
+	ip		10.42.0.1
+
+	### Inside ~/.bashrc
+	export ROS_MASTER_URI=http://10.42.0.1:11311
+	export ROS_IP=10.42.0.1
+
+	ROSCORE IS ONLY START ON MASTER
+
+	### TEST 
+	roscore
+	rosrun rospy_tutorials listener.py
+
+#################################################################################################################################
+# Local Computer
+#################################################################################################################################
+
+	export ROS_MASTER_URI=http://10.42.0.1:11311
+	export ROS_IP=192.168.0.101
+
+	DO NOT RUN ROSCORE
+
+	### TEST
+	rosrun rospy_tutorials talker.py
