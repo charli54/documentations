@@ -2,6 +2,9 @@
 source /opt/ros/kinetic/setup.bash
 roscore					
 
+# UPLOAD PROGRAM FOR ARDUINO WITH AVRDUDE AND POLOLU ISP
+avrdude -c avrispv2 -p m32u4 -P /dev/ttyACM0 -U flash:w:programe_name.hex
+
 # ECLIPSE CONFIGURATION POUR ROS
 	1. Install eclipse from download
 	2. make the launcher
