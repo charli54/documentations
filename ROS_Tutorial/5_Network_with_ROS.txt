@@ -39,3 +39,24 @@
 
 	### TEST
 	rosrun rospy_tutorials talker.py
+
+#################################################################################################################################
+# SSH over wifi
+#################################################################################################################################
+Le routeur semble bloquer le port 22 sur le wifi, alors il faut changer de port pour utiliser le ssh et sftp
+
+	###Pour connaitre le port actuellement utiliser
+	sudo netstat -tulnp | grep ssh
+
+	###Il faut modifier le fichier de configuration de deamon
+	nano /etc/ssh/sshd_config
+
+	###decommenter la ligne #Port 22
+	###modifier pour le port desire
+
+	###On redemare le service
+	sudo systemctl restart sshd.service
+
+	###Pour se connecter a travers le nouveau port
+	ssh -p 225 jetbot@10.0.0.77
+	
